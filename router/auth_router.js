@@ -1,5 +1,6 @@
 const { login } = require('../controllers/auth');
+const { protect } = require('../middlewares/auth');
 const router = require('express').Router();
 
-router.get('/login', login);
+router.post('/login', login);
 module.exports = router;

@@ -5,6 +5,7 @@ const ShopSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please provide shop name'],
       unique: true,
+      minlength: 8
     },
     description: {
       type: String,

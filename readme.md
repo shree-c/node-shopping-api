@@ -10,7 +10,8 @@
   - rating and reviews
   - images of the item
 - shop-owner
-  - can modify catagories
+  - can modify shop attributes
+  - can modify catagory attributes
   - can modify item attributes
   - report reviews to the admin
 - user
