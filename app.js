@@ -4,6 +4,7 @@ require('dotenv').config({
 //router require begin
 const auth_router = require('./router/auth_router');
 const shop_router = require('./router/shop_router');
+const category_router = require('./router/category_router');
 //router require end
 
 const mongoose = require('mongoose');
@@ -25,6 +26,7 @@ app.use(fileUpload({
 }));
 app.use('/api/v1/auth', auth_router);
 app.use('/api/v1/shop', shop_router);
+app.use('/api/v1/', category_router);
 
 app.use(function (err, req, res, next) {
   console.log(err);

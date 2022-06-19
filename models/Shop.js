@@ -31,6 +31,14 @@ const ShopSchema = mongoose.Schema(
   }
 );
 
+//post hook for deleting its categories after a shop is deleted
+ShopSchema.pre('remove', async function (next) {
+  await this.model('Category').deleteMany({
+    shop: this._id
+  });
+  next();
+});
+
 ShopSchema.virtual('categories', {
   ref: 'Category',
   localField: '_id',

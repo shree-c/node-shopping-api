@@ -1,11 +1,11 @@
-const { async_handler } = require('../middlewares/async_handler');
+const { async_handler } = require('../utils/async_handler');
 const Shop = require('../models/Shop');
 const Category = require('../models/Category');
 const path = require('path');
 
-exports.createShop = exports.funName = async_handler(async function (req, res, next) {
+exports.createShop = async_handler(async function (req, res, next) {
   req.body.owner = req.user.id;
-  let shop = await Shop.findOne({ shop: req.user.id });
+  let shop = await Shop.findOne({ owner: req.user.id });
   if (shop) {
     throw Error('a user can only create one shop');
   }
