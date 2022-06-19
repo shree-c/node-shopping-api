@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
-const CatagorySchema = mongoose.Schema(
+const CategorySchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide catagory name']
+      required: [true, 'Please provide category name']
     },
     shop: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Shop',
-      required: [true, 'Please provide a shop for the catagory']
+      required: [true, 'Please provide a shop for the category']
     },
     description: {
       type: String,
-      required: [true, 'Please provide catagory description']
+      required: [true, 'Please provide category description']
     },
     createdTime: {
       type: Date,
@@ -29,10 +29,10 @@ const CatagorySchema = mongoose.Schema(
   }
 );
 
-CatagorySchema.virtual('items', {
+CategorySchema.virtual('items', {
   ref: 'Item',
   localField: '_id',
-  foreignField: 'catagory'
+  foreignField: 'category'
 });
 
-module.exports = mongoose.model('Catagory', CatagorySchema);
+module.exports = mongoose.model('Category', CategorySchema);

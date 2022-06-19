@@ -2,7 +2,7 @@
 ## Features
 - allow users to have an account
   - types of users : admin, shop-owners, users
-- shop owners can set up a shop with different catagories and a number of items in each catagory
+- shop owners can set up a shop with different categories and a number of items in each category
 - each item has certain attributes
   - name
   - price and shipping charges
@@ -11,7 +11,7 @@
   - images of the item
 - shop-owner
   - can modify shop attributes
-  - can modify catagory attributes
+  - can modify category attributes
   - can modify item attributes
   - report reviews to the admin
 - user

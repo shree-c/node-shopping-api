@@ -29,10 +29,10 @@ const ItemSchema = mongoose.Schema(
       type: [String],
       required: [true, 'Please provide atleast one image for an item']
     },
-    catagory: {
+    category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Catagory',
-      required: [true, 'Please provide a catagory for the item']
+      ref: 'category',
+      required: [true, 'Please provide a category for the item']
     }
   }
 );

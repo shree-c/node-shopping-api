@@ -10,8 +10,8 @@ router.route('/:id/photo')
   .post(protect, uploadPhoto);
 
 router.route('/:id')
-  .put(updateShop)
-  .delete(deleteShop)
-  .get(getSingleShop);
+  .put(protect, updateShop)
+  .delete(protect, deleteShop)
+  .get(protect, getSingleShop);
 
 module.exports = router;

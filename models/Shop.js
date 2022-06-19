@@ -31,8 +31,8 @@ const ShopSchema = mongoose.Schema(
   }
 );
 
-ShopSchema.virtual('catagories', {
-  ref: 'Catagory',
+ShopSchema.virtual('categories', {
+  ref: 'Category',
   localField: '_id',
   foreignField: 'shop'
 });

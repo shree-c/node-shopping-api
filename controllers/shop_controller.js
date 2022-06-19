@@ -1,6 +1,6 @@
 const { async_handler } = require('../middlewares/async_handler');
-const Catagory = require('../models/Catagory');
 const Shop = require('../models/Shop');
+const Category = require('../models/Category');
 const path = require('path');
 
 exports.createShop = exports.funName = async_handler(async function (req, res, next) {
@@ -20,7 +20,7 @@ exports.createShop = exports.funName = async_handler(async function (req, res, n
 });
 //private
 exports.getAllShops = async_handler(async function (req, res, next) {
-  const shops = await Shop.find({ owner: req.user.id }).populate('catagories');
+  const shops = await Shop.find({ owner: req.user.id }).populate('categories');
   res.json({
     success: true,
     data: shops
@@ -32,6 +32,9 @@ exports.updateShop = async_handler(async function (req, res, next) {
   const shop = await Shop.findById(req.params.id);
   if (!shop) {
     throw new Error('shop with id not found');
+  }
+  if (shop.owner.toString() != req.user.id) {
+    throw new Error('you are not authorized to do this action');
   }
   Object.keys(req.body).forEach((val) => {
     shop[val] = req.body[val];
@@ -100,6 +103,10 @@ exports.getSingleShop = async_handler(async function (req, res, next) {
   const shop = await Shop.findById(req.params.id);
   if (!shop) {
     throw new Error('shop with id not found');
+  }
+  console.log(req.user);
+  if (req.user.id != shop.owner.toString()) {
+    throw new Error('you are not authorized to access this');
   }
   res.json({
     success: true,
