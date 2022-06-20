@@ -28,3 +28,11 @@
 
 ## api-rules
 ## programming-rules
+## things need to be done
+- resolve image uploading conflict while adding items
+- add review routes
+- bug hunt
+- auth and user related routes
+- get owner router
+- filter json data sent through post requests
+- add database hooks and middlewares
