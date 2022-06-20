@@ -1,7 +1,7 @@
 const Category = require('../models/Category');
 const Shop = require('../models/Shop');
 const { async_handler } = require('../utils/async_handler');
-
+const { find_owner_for_category } = require('../utils/controller_utils');
 //create category for a shop
 exports.createCategory = async_handler(async function (req, res, next) {
     //check to see if the shop exists and the user is the owner of shop
@@ -22,7 +22,7 @@ exports.createCategory = async_handler(async function (req, res, next) {
 
 //get categroies for a shop
 exports.getCategories = async_handler(async function (req, res, next) {
-    const categories = await Category.find({ owner: req.params.shop_id });
+    const categories = await Category.find({ owner: req.params.shop_id }).populate('items');
     res.json({
         success: true,
         data: categories
@@ -31,12 +31,12 @@ exports.getCategories = async_handler(async function (req, res, next) {
 
 //update category for a shop
 exports.updateCategory = async_handler(async function (req, res, next) {
-    const category = await Category.findById(req.params.category_id);
-    if (!category) {
-        throw new Error(`category with category id : ${req.params.category_id} not found`);
-    }
-    const shop = await Shop.findById(category.shop);
-    if (shop.owner.toString() != req.user.id) {
+    // const category = await Category.findById(req.params.category_id);
+    // if (!category) {
+    //     throw new Error(`category with category id : ${req.params.category_id} not found`);
+    // }
+    // const shop = await Shop.findById(category.shop);
+    if (req.user.id != await find_owner_for_category(req.params.category_id)) {
         throw new Error('you are not authorized to do this action');
     }
     Object.keys(req.body).forEach((val) => {
@@ -51,12 +51,15 @@ exports.updateCategory = async_handler(async function (req, res, next) {
 
 //delete category for a shop
 exports.deleteCategory = async_handler(async function (req, res, next) {
-    const category = await Category.findById(req.params.category_id);
-    if (!category) {
-        throw new Error(`category with category id : ${req.params.category_id} not found`);
-    }
-    const shop = await Shop.findById(category.shop);
-    if (shop.owner.toString() != req.user.id) {
+    // const category = await Category.findById(req.params.category_id);
+    // if (!category) {
+    //     throw new Error(`category with category id : ${req.params.category_id} not found`);
+    // }
+    // const shop = await Shop.findById(category.shop);
+    // if (shop.owner.toString() != req.user.id) {
+    //     throw new Error('you are not authorized to do this action');
+    // }
+    if (req.user.id != await find_owner_for_category(req.params.category_id)) {
         throw new Error('you are not authorized to do this action');
     }
     await category.remove();
