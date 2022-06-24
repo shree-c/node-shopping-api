@@ -1,6 +1,5 @@
 const { async_handler } = require('../utils/async_handler');
 const Shop = require('../models/Shop');
-const Category = require('../models/Category');
 const path = require('path');
 
 exports.createShop = async_handler(async function (req, res, next) {

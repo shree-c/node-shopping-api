@@ -4,6 +4,7 @@ require('dotenv').config({
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const Shop = require('./Shop');
 const UserSchema = mongoose.Schema(
   {
     name: {
@@ -61,4 +62,13 @@ UserSchema.methods.getSignedJwtToken = function () {
 UserSchema.methods.compare = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+//delete shops after a user is deleted
+UserSchema.pre('remove', async function () {
+  await this.model('Shop').deleteMany({
+    owner: this._id
+  });
+});
+UserSchema.pre('deleteMany', { document: false, query: true }, async function () {
+  await Shop.deleteMany();
+});
 module.exports = mongoose.model('User', UserSchema);

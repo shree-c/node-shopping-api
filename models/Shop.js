@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Category = require('./Category');
 const ShopSchema = mongoose.Schema(
   {
     name: {
@@ -32,11 +33,15 @@ const ShopSchema = mongoose.Schema(
 );
 
 //post hook for deleting its categories after a shop is deleted
-ShopSchema.pre('remove', async function (next) {
+ShopSchema.post('remove', async function (next) {
   await this.model('Category').deleteMany({
     shop: this._id
   });
   next();
+});
+
+ShopSchema.post('deleteMany', { document: false, query: true }, async function () {
+  await Category.deleteMany();
 });
 
 ShopSchema.virtual('categories', {

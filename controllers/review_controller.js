@@ -19,8 +19,9 @@ exports.getAllReviewsForItem = async_handler(async function (req, res, next) {
 });
 
 exports.postReview = async_handler(async function (req, res, next) {
-    if (req.user.id === await find_owner_for_an_item(req.params.item_id)) {
-        throw new Error('you are not authorized to post this review');
+    const check = await find_owner_for_an_item(req.params.category_id);
+    if (req.user.id != check.owner) {
+        throw new Error('you are not authorized to do this action');
     }
     if (await Review.findOne({ item: req.params.item_id, user: req.user.id })) {
         throw new Error('you can post at most one review on an item');
@@ -69,4 +70,3 @@ exports.deleteReview = async_handler(async function (req, res, next) {
         data: []
     });
 });
-

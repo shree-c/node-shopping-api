@@ -1,5 +1,3 @@
-const Category = require('../models/Category');
-const Shop = require('../models/Shop');
 const Item = require('../models/Item');
 const { async_handler } = require('../utils/async_handler');
 const { find_owner_for_an_item, find_owner_for_category } = require('../utils/controller_utils');
@@ -15,8 +13,10 @@ exports.getItems = async_handler(async function (req, res, next) {
 });
 
 //private
+//add items to a category
 exports.addItems = async_handler(async function (req, res, next) {
-    if (req.user.id != await find_owner_for_category(req.params.category_id)) {
+    const check = await find_owner_for_category(req.params.category_id);
+    if (req.user.id != check.owner) {
         throw new Error('you are not authorized to do this action');
     }
     req.body.forEach(function (val) {
@@ -30,21 +30,29 @@ exports.addItems = async_handler(async function (req, res, next) {
 });
 
 exports.updateItem = async_handler(async function (req, res, next) {
-    if (req.user.id != await find_owner_for_an_item(req.params.item_id)) {
+    const check = await find_owner_for_an_item(req.params.item_id);
+    if (req.user.id != check.owner) {
         throw new Error('you are not authorized to do this action');
     }
-    const item = await Item.findByIdAndUpdate(req.params.item_id, req.body);
+    Object.keys(req.body).forEach((val) => {
+        check.item[val] = req.body[val];
+    });
+    check.item.save({
+        runValidators: true,
+        new: true
+    });
     res.json({
         success: true,
-        body: item
+        body: check.item
     });
 });
 
 exports.deleteItem = async_handler(async function (req, res, next) {
-    if (req.user.id != await find_owner_for_an_item(req.params.item_id)) {
+    const check = await find_owner_for_an_item(req.params.item_id);
+    if (req.user.id != check.owner) {
         throw new Error('you are not authorized to do this action');
     }
-    const item = await Item.findByIdAndDelete(req.params.item_id);
+    await check.item.remove();
     res.json({
         success: true,
         body: item

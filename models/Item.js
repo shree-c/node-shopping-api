@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Review = require('./Review');
 const ItemSchema = mongoose.Schema(
   {
     name: {
@@ -36,5 +37,14 @@ const ItemSchema = mongoose.Schema(
     }
   }
 );
+//delete reviews
+ItemSchema.pre('remove', async function () {
+  await this.model('Review').deleteMany({
+    item: this._id
+  });
+});
 
+ItemSchema.pre('deleteMany', { query: true, document: false }, async function () {
+  await Review.deleteMany({});
+});
 module.exports = mongoose.model('Item', ItemSchema);

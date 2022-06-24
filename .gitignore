@@ -1,6 +1,5 @@
 node_modules/
 seed_data/
-seeder.js
 *.test.js
 config/
 tmp/

@@ -7,7 +7,7 @@ exports.find_owner_for_category = async function (id) {
         throw new Error(`category with id: ${id} not found`);
     }
     const shop = await Shop.findById(category.shop);
-    return shop.owner.toString();
+    return { owner: shop.owner.toString(), category };
 };
 
 exports.find_owner_for_an_item = async function (id) {
@@ -17,5 +17,5 @@ exports.find_owner_for_an_item = async function (id) {
     }
     const category = await Category.findById(item.category);
     const shop = await Shop.findById(category.shop);
-    return shop.owner.toString();
+    return { owner: shop.owner.toString(), item };
 };
