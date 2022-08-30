@@ -1,5 +1,11 @@
 # Shopping app api written in node using express framework
+
 ## Features
+
+## api documentation
+
+[docs](https://documenter.getpostman.com/view/12674001/VUxLx9KU)
+
 - allow users to have an account
   - types of users : admin, shop-owners, users
 - shop owners can set up a shop with different categories and a number of items in each category
@@ -27,8 +33,11 @@
   - delete/hide any review on an item
 
 ## api-rules
+
 ## programming-rules
+
 ## things need to be done
+
 - resolve image uploading conflict while adding items
 - add review routes
 - bug hunt
